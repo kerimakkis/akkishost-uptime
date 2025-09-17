@@ -35,7 +35,7 @@ def is_status_ok(status: int, expected: Optional[int], ranges) -> bool:
     return any(lo <= status <= hi for lo,hi in ranges)
 
 async def fetch_once(session: aiohttp.ClientSession, url: str, timeout: int):
-    headers = {"Range":"bytes=0-1024","User-Agent":"akkishost-uptime/1.0"}
+    headers = {"User-Agent":"akkishost-uptime/1.0"}
     return await session.get(url, timeout=timeout, headers=headers, allow_redirects=True)
 
 async def check_site(session, site: Dict[str,Any], defaults: Dict[str,Any], ranges):
