@@ -1,0 +1,45 @@
+name: External Uptime (AkkisHost)
+
+on:
+  schedule:
+    # 05:15 UTC = 07:15 Europe/Berlin (yaz saati varken)
+    - cron: '15 5 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Ensure it's ~07 local (Europe/Berlin)
+        run: |
+          sudo ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+          H=$(date +%H)
+          if [ "$H" != "07" ]; then
+            echo "Not 07 in Europe/Berlin (H=$H). Exiting."
+            exit 0
+          fi
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install deps
+        run: pip install aiohttp pyyaml
+
+      - name: Run checks
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python monitor/check_sites.py --config monitor/sites.yml --json uptime.json
+
+      - name: Upload JSON report (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: uptime-report
+          path: uptime.json
+

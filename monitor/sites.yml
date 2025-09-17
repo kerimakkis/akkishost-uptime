@@ -1,0 +1,15 @@
+sites:
+  - url: https://kerimakkis.com/
+    expected_status: 200
+  - url: https://www.kerimakkis.com/
+    expected_status: 200
+  - url: https://senayakkis.com/
+  - url: https://sevoelektro.com/
+  - url: https://kerimakkis.com/
+defaults:
+  timeout: 10
+  retries: 1
+  allow_status_ranges:
+    - "200-299"
+    - "300-399"
+
