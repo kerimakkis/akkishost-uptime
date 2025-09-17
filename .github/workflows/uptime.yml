@@ -2,20 +2,18 @@ name: External Uptime (AkkisHost)
 
 on:
   schedule:
-    # 05:15 UTC = 07:15 Europe/Berlin (yaz saati varken)
-    - cron: '15 5 * * *'
-  workflow_dispatch: {}
+    - cron: '15 5 * * *'   # 05:15 UTC ≙ 07:15 Berlin (yaz saatinde)
+  workflow_dispatch: {}     # <-- manuel tetikleyici
 
 jobs:
   check:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out
         uses: actions/checkout@v4
 
       - name: Ensure it's ~07 local (Europe/Berlin) on schedule only
-	if: ${{ github.event_name == 'schedule'}}
+        if: ${{ github.event_name == 'schedule' }}
         run: |
           sudo ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
           H=$(date +%H)
