@@ -14,7 +14,8 @@ jobs:
       - name: Check out
         uses: actions/checkout@v4
 
-      - name: Ensure it's ~07 local (Europe/Berlin)
+      - name: Ensure it's ~07 local (Europe/Berlin) on schedule only
+	if: ${{ github.event_name == 'schedule'}}
         run: |
           sudo ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
           H=$(date +%H)

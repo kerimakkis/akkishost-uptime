@@ -1,11 +1,13 @@
 sites:
-  - url: https://kerimakkis.com/
-    expected_status: 200
-  - url: https://www.kerimakkis.com/
-    expected_status: 200
   - url: https://senayakkis.com/
-  - url: https://sevoelektro.com/
+    expected_status: 200
   - url: https://kerimakkis.com/
+    expected_status: 200
+  - url: https://akkisbau.com/
+    expected_status: 200
+  - url: https://sevoelektro.com/
+    expected_status: 200
+
 defaults:
   timeout: 10
   retries: 1
