@@ -7,6 +7,9 @@ sites:
     expected_status: 200
   - url: https://sevoelektro.com/
     expected_status: 200
+ - url: https://akkistech.com/
+    expected_status: 200
+    
 
 defaults:
   timeout: 10
