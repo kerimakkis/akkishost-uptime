@@ -31,10 +31,48 @@ jobs:
         run: pip install aiohttp pyyaml
 
       - name: Run checks
+        id: uptime_check
+        continue-on-error: true
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           python monitor/check_sites.py --config monitor/sites.yml --json uptime.json
+
+      - name: Read results
+        id: results
+        run: |
+          if [ -f uptime.json ]; then
+            SUMMARY=$(jq -r '.summary | "OK: \(.ok) | FAIL: \(.fail) | SKIP: \(.skip) | Total: \(.total)"' uptime.json)
+            TIMESTAMP=$(jq -r '.timestamp' uptime.json)
+            echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+            echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+            
+            # Create detailed report
+            echo "## AkkisHost Uptime Report" > report.txt
+            echo "" >> report.txt
+            echo "**Timestamp:** $TIMESTAMP" >> report.txt
+            echo "**Summary:** $SUMMARY" >> report.txt
+            echo "" >> report.txt
+            echo "### Details:" >> report.txt
+            jq -r '.results[] | if .status == "ok" then "✅ \(.url) - OK (HTTP \(.http_status))" elif .status == "fail" then "❌ \(.url) - FAILED: \(.error)" else "⏭️  \(.url) - SKIPPED" end' uptime.json >> report.txt
+          else
+            echo "summary=Check failed - no results" >> $GITHUB_OUTPUT
+            echo "timestamp=$(date)" >> $GITHUB_OUTPUT
+            echo "Check failed - no results file generated" > report.txt
+          fi
+
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "🔍 AkkisHost Uptime Report - ${{ steps.results.outputs.timestamp }}"
+          to: akkisgreen@gmail.com
+          from: AkkisHost Monitor <${{ secrets.EMAIL_USERNAME }}>
+          body: file://report.txt
+          priority: normal
 
       - name: Upload JSON report (artifact)
         uses: actions/upload-artifact@v4
