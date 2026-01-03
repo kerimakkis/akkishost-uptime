@@ -4,11 +4,11 @@ External uptime monitoring for AkkisHost websites using GitHub Actions.
 
 ## Features
 
-- ✅ Automated daily checks at 07:15 Berlin time
-- 📧 Email notifications to `akkisgreen@gmail.com`
-- 📊 JSON report artifacts
-- 🔄 Async HTTP checks with retries
-- ⚡ Supports custom timeouts and status codes
+-  Automated daily checks at 07:15 Berlin time
+-  Email notifications to `akkisgreen@gmail.com`
+- JSON report artifacts
+-  Async HTTP checks with retries
+-  Supports custom timeouts and status codes
 
 ## Monitored Sites
 
