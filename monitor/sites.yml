@@ -1,14 +1,53 @@
 sites:
   - url: https://senayakkis.com/
     expected_status: 200
+
   - url: https://kerimakkis.com/
     expected_status: 200
+
   - url: https://akkisbau.com/
     expected_status: 200
+
   - url: https://sevoelektro.com/
     expected_status: 200
+
   - url: https://www.akkistech.com/
     expected_status: 200
+
+  - name: Optiviera
+    url: https://optiviera.com/
+    expected_status: 200
+    keyword: Optiviera
+    pages:
+      - path: /dashboard
+        expected_status: 200
+
+      - path: /tickets
+        expected_status: 200
+
+      - path: /workorders
+        expected_status: 200
+
+      - path: /inventory
+        expected_status: 200
+
+      - path: /procurement
+        expected_status: 200
+
+      - path: /crm
+        expected_status: 200
+
+      - path: /sales
+        expected_status: 200
+
+      - path: /hr
+        expected_status: 200
+
+      - path: /finance
+        expected_status: 200
+        
+      - path: /ops
+        expected_status: 200
 
 defaults:
   timeout: 10
@@ -16,5 +55,3 @@ defaults:
   allow_status_ranges:
     - "200-299"
     - "300-399"
-
-#Keep Alive
