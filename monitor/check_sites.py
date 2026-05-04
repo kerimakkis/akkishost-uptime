@@ -84,7 +84,27 @@ async def main():
 
     with open(args.config,"r",encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
-    sites = data.get("sites", [])
+    raw_sites = data.get("sites", [])
+    sites = []
+
+    for site in raw_sites:
+        sites.append(site)
+    
+        base_url = site.get("url", "").rstrip("/")
+        for page in site.get("pages", []):
+            path = page.get("path", "/")
+    
+            full_url = base_url + path if path.startswith("/") else base_url + "/" + path
+    
+            child = {
+                **site,
+                **page,
+                "url": full_url,
+                "parent": site.get("name") or site.get("url"),
+            }
+
+        child.pop("pages", None)
+        sites.append(child)
     defaults = data.get("defaults", {})
     ranges = parse_status_ranges(defaults.get("allow_status_ranges", ["200-299","300-399"]))
 
