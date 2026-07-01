@@ -14,6 +14,9 @@ sites:
   - url: https://www.akkistech.com/
     expected_status: 200
 
+  - url: https://www.n8n.akkistech.com/
+    expected_status: 200
+
   - name: Optiviera
     url: https://optiviera.com/
     expected_status: 200
