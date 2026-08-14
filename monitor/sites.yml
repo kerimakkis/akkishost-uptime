@@ -17,6 +17,15 @@ sites:
   - url: https://n8n.akkistech.com/
     expected_status: 200
 
+  - url: https://ai.akkistech.com/
+    expected_status: 200
+
+  - url: https://akkivo.com/
+    expected_status: 200
+
+  - url: https://odoino.com/
+    expected_status: 200
+
   - name: Optiviera
     url: https://optiviera.com/
     expected_status: 200
