@@ -20,7 +20,7 @@ sites:
   - url: https://ai.akkistech.com/
     expected_status: 200
 
-  - url: https://akkivo.com/
+  - url: https://akkivo.ai/
     expected_status: 200
 
   - url: https://odoino.com/
